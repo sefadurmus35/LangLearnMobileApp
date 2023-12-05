@@ -1,52 +1,22 @@
-import {Pressable, StyleSheet, View} from 'react-native';
-import {Avatar, Text} from 'react-native-paper';
-import { useNavigate } from 'react-router-native';
+import {useContext, useEffect} from 'react';
+
+import {useNavigate} from 'react-router-native';
+
+import Friends from '../../shared/friends/components/Friends';
+import {FriendsContext} from '../../shared/friends/contexts/friends.context';
+import {CallActivity} from '../../shared/friends/models';
 
 const ChatsScreen = () => {
+  const {callActivity} = useContext(FriendsContext);
   const navigate = useNavigate();
 
-  const friends = [
-    {id: 1, name: 'Jon'},
-    {id: 2, name: 'Larry'},
-    {id: 3, name: 'Barry'},
-  ];
+  useEffect(() => {
+    if (callActivity === CallActivity.Receiving) {
+      navigate('/receive-call');
+    }
+  }, [callActivity, navigate]);
 
-  return (
-    <View style={styles.container}>
-      {friends.map(friend => (
-        <Pressable key={friend.id} onPress={() => navigate(`/chat/${friend.id}`)}>
-          <View style={styles.friend}>
-            <Avatar.Image
-              size={72}
-              style={styles.profilePicture}
-              source={{
-                uri: `https://randomuser.me/api/portraits/men/${friend.id}.jpg`,
-              }}
-            />
-            <View>
-              <Text>{friend.name}</Text>
-              <Text>This was the last message | Sun</Text>
-            </View>
-          </View>
-        </Pressable>
-      ))}
-    </View>
-  );
+  return <Friends showMessage />;
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    padding: 16,
-  },
-  friend: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginBottom: 8,
-  },
-  profilePicture: {
-    marginRight: 5,
-  },
-});
 
 export default ChatsScreen;
