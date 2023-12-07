@@ -70,7 +70,7 @@ const Screens = () => {
         </Routes>
       ) : (
         <Routes>
-          <Route path="/" element={<RegisterScreen />} />
+          <Route path="/" element={<LoginScreen />} />
           <Route path="/register" element={<RegisterScreen />} />
           <Route path="/login" element={<LoginScreen />} />
         </Routes>
